@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -55,7 +56,7 @@ public class DiceTest {
 		int secondExpectedDieRoll = 6;
 		when(rand.nextInt(10)).thenReturn(firstExpectedDieRoll - 1, secondExpectedDieRoll - 1);
 		int result = underTest.roll("2d10");
-		Assert.assertThat(result, is(firstExpectedDieRoll + secondExpectedDieRoll));
+		assertThat(result, is(firstExpectedDieRoll + secondExpectedDieRoll));
 		
 	}
 	
@@ -66,7 +67,27 @@ public class DiceTest {
 		int thirdExpectedDieRoll = 2;
 		when(rand.nextInt(10)).thenReturn(firstExpectedDieRoll - 1, secondExpectedDieRoll - 1, thirdExpectedDieRoll - 1);
 		int result = underTest.roll("3d10");
-		Assert.assertThat(result, is(firstExpectedDieRoll + secondExpectedDieRoll + thirdExpectedDieRoll));
+		assertThat(result, is(firstExpectedDieRoll + secondExpectedDieRoll + thirdExpectedDieRoll));
 	}
-
+	
+	@Test
+	public void shouldAddModifier2() {
+		int firstExpectedDieRoll = 4;
+		int secondExpectedDieRoll = 6;
+		int modifier = 2;
+		when(rand.nextInt(10)).thenReturn(firstExpectedDieRoll - 1, secondExpectedDieRoll - 1);
+		int result = underTest.roll("2d10+2");
+		assertThat(result, is(firstExpectedDieRoll + secondExpectedDieRoll + modifier));
+	}
+	
+	@Test
+	public void shouldSubtractModifier3() {
+		int firstExpectedDieRoll = 4;
+		int secondExpectedDieRoll = 6;
+		int modifier = -3;
+		when(rand.nextInt(10)).thenReturn(firstExpectedDieRoll - 1, secondExpectedDieRoll - 1);
+		int result = underTest.roll("2d10-3");
+		assertThat(result, is(firstExpectedDieRoll + secondExpectedDieRoll + modifier));
+	}
+	
 }
