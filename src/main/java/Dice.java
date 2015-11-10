@@ -62,8 +62,12 @@ public class Dice {
 			return parseInt(secondPart.split("\\+")[position]);
 		} else if (secondPart.contains(NEGATIVE_SIGN)) {
 			int result = parseInt(secondPart.split("\\-")[position]);
-			return position == 0 ? result : -result;
+			return isUpperBound(position) ? result : -result;
 		}
-		return position == 0 ? parseInt(secondPart) : 0;
+		return isUpperBound(position) ? parseInt(secondPart) : 0;
+	}
+
+	private boolean isUpperBound(int position) {
+		return position == 0;
 	}
 }

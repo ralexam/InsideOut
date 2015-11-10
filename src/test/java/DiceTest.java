@@ -71,7 +71,7 @@ public class DiceTest {
 	}
 	
 	@Test
-	public void shouldAddModifier2() {
+	public void shouldAddModifier2AndSum2Dice() {
 		int firstExpectedDieRoll = 4;
 		int secondExpectedDieRoll = 6;
 		int modifier = 2;
@@ -81,13 +81,22 @@ public class DiceTest {
 	}
 	
 	@Test
-	public void shouldSubtractModifier3() {
+	public void shouldSubtractModifier3AndSum2Dice() {
 		int firstExpectedDieRoll = 4;
 		int secondExpectedDieRoll = 6;
 		int modifier = -3;
 		when(rand.nextInt(10)).thenReturn(firstExpectedDieRoll - 1, secondExpectedDieRoll - 1);
 		int result = underTest.roll("2d10-3");
 		assertThat(result, is(firstExpectedDieRoll + secondExpectedDieRoll + modifier));
+	}
+	
+	@Test
+	public void shouldSubtractModifier3() {
+		int firstExpectedDieRoll = 4;
+		int modifier = -3;
+		when(rand.nextInt(10)).thenReturn(firstExpectedDieRoll - 1);
+		int result = underTest.roll("d10-3");
+		assertThat(result, is(firstExpectedDieRoll + modifier));
 	}
 	
 }
