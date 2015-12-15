@@ -19,6 +19,11 @@ public class DiceParserTest {
 	}
 	
 	@Test
+	public void shouldParseNumberOfDiceToDefault() {
+		assertThat(underTest.numberOfDice("d42"), is(1));
+	}
+	
+	@Test
 	public void shouldParseNumberOfDice() {
 		assertThat(underTest.numberOfDice("2d42"), is(2));
 	}

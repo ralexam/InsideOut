@@ -16,7 +16,7 @@ public class DiceTest {
 	Dice underTest;
 	
 	@Mock
-	Random rand;
+	Random random;
 	
 	@Mock
 	DiceParser diceParser;
@@ -31,9 +31,9 @@ public class DiceTest {
 		when(diceParser.numberOfDice("3d10+2")).thenReturn(3);
 		when(diceParser.numberOfSides("3d10+2")).thenReturn(10);
 		when(diceParser.modifier("3d10+2")).thenReturn(2);
-		when(diceParser.numberOfDice("2d10-3")).thenReturn(2);
-		when(diceParser.numberOfSides("2d10-3")).thenReturn(10);
-		when(diceParser.modifier("2d10-3")).thenReturn(-3);
+		when(diceParser.numberOfDice("2d10-6")).thenReturn(2);
+		when(diceParser.numberOfSides("2d10-6")).thenReturn(10);
+		when(diceParser.modifier("2d10-6")).thenReturn(-6);
 	}
 	
 	@Test
@@ -42,19 +42,37 @@ public class DiceTest {
 		int secondExpectedDieRoll = 6;
 		int thirdExpectedDieRoll = 2;
 		int modifier = 2;
-		when(rand.nextInt(10)).thenReturn(firstExpectedDieRoll - 1, secondExpectedDieRoll - 1, thirdExpectedDieRoll - 1);
+		when(random.nextInt(10)).thenReturn(firstExpectedDieRoll - 1, secondExpectedDieRoll - 1, thirdExpectedDieRoll - 1);
 		int result = underTest.roll("3d10+2");
-		assertThat(result, is(firstExpectedDieRoll + secondExpectedDieRoll + thirdExpectedDieRoll + (3*modifier)));
+		assertThat(result, is(firstExpectedDieRoll + secondExpectedDieRoll + thirdExpectedDieRoll + modifier));
 	}
 	
 	@Test
 	public void shouldSubtractModifier3AndSum2Dice() {
 		int firstExpectedDieRoll = 4;
 		int secondExpectedDieRoll = 6;
-		int modifier = -3;
-		when(rand.nextInt(10)).thenReturn(firstExpectedDieRoll - 1, secondExpectedDieRoll - 1);
-		int result = underTest.roll("2d10-3");
-		assertThat(result, is(firstExpectedDieRoll + secondExpectedDieRoll + (2*modifier)));
+		int modifier = -6;
+		when(random.nextInt(10)).thenReturn(firstExpectedDieRoll - 1, secondExpectedDieRoll - 1);
+		int result = underTest.roll("2d10-6");
+		assertThat(result, is(firstExpectedDieRoll + secondExpectedDieRoll + modifier));
+	}
+
+	@Test
+	public void shouldBeZeroNotNegative() {
+		int firstExpectedDieRoll = 2;
+		int secondExpectedDieRoll = 2;
+		when(random.nextInt(10)).thenReturn(firstExpectedDieRoll - 1, secondExpectedDieRoll - 1);
+		int result = underTest.roll("2d10-6");
+		assertThat(result, is(0));
+	}
+	
+	@Ignore @Test
+	public void shouldBeOneNotNegative() {
+		int firstExpectedDieRoll = 2;
+		int secondExpectedDieRoll = 2;
+		when(random.nextInt(10)).thenReturn(firstExpectedDieRoll - 1, secondExpectedDieRoll - 1);
+		int result = underTest.roll("2d10-6");
+		assertThat(result, is(1));
 	}
 	
 }

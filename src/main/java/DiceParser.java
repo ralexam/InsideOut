@@ -1,18 +1,19 @@
 import static java.lang.Integer.parseInt;
+import static java.util.regex.Pattern.compile;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DiceParser {
 	
-	private static final Pattern DICE_REGEX = Pattern.compile("(?<numberOfDice>\\d*)d(?<numberOfSides>\\d+)(?<modifier>[\\+-]\\d+)?");
+	private static final Pattern DICE_REGEX = compile("(?<numberOfDice>\\d*)d(?<numberOfSides>\\d+)(?<modifier>[\\+-]\\d+)?");
 
 	public int numberOfSides(String dice) {
 		return parseValue(dice, "numberOfSides");
 	}
 	
 	public int numberOfDice(String dice) {
-		return parseValue(dice, "numberOfDice");
+		return parseValue(dice, "numberOfDice", 1);
 	}
 	
 	public int modifier(String dice) {
